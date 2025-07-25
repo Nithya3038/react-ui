@@ -32,10 +32,6 @@ const Upload=()=>{
         setImage([]);
     };
 
-    const handleEditName = (id, newName) => {
-    setImage((prev) => prev.map((img) => (img.id === id ? { ...img, name: newName } : img)));
-   };
-
     return(
          <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 font-body">
            <div className="bg-white p-6 rounded-2xl shadow-md text-center w-full max-w-xl">
@@ -63,12 +59,6 @@ const Upload=()=>{
                 {image.map((img) => (
                  <div className="relative border rounded p-2 bg-gray-50">
                  <img key={img.id} src={img.src} alt="image" className="rounded-lg h-32 w-full object-cover mb-2"/>
-
-                 <input
-                type="text"
-                value={img.name}
-                onChange={(e) => handleEditName(img.id, e.target.value)}
-                className="text-xs border px-2 py-1 rounded w-full mb-1"/>
 
                 <button onClick={() => handleDelete(img.id)} className="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 rounded-full">Delete</button>
             </div>

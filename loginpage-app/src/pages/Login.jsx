@@ -3,15 +3,18 @@ import {FaGoogle, FaFacebookF, FaTwitter} from 'react-icons/fa';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Upload from '../components/Upload';
+
 
 const Login = () => {
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
+     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (email && password ) {
-            navigate('/home');
+            navigate('/Upload');
     }
 }
     return (

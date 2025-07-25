@@ -12,7 +12,7 @@ const Register = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     if (username && email && password) {
-      navigate('/login');
+      navigate('/');
     }
   };
 
@@ -80,7 +80,7 @@ const Register = () => {
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <a href="/login" className="text-blue-500 hover:underline">
+              <a href="/" className="text-blue-500 hover:underline">
                 Login
               </a>
             </p>
