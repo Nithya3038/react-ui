@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 const App = () => {
   const [news, setNews] = useState([]);
+  const apikey = import.meta.env.VITE_NEWS_API_KEY;
 
   useEffect(()=>{
     const getNews=async()=>{
-      const api= 'https://newsapi.org/v2/everything?q=apple&from=2025-07-21&to=2025-07-21&sortBy=popularity&apiKey=b9030eb40d944d2a973e5ab5f04b6fc2';
+      const api= `https://newsapi.org/v2/everything?q=apple&from=2025-07-21&to=2025-07-21&sortBy=popularity&apiKey=${apikey}`;
+
       try{
         const response=await fetch(api);
         const data=await response.json();
