@@ -1,5 +1,6 @@
 import {useState, useContext, useEffect} from 'react';
 import {InvoiceContext} from '../App';
+import {useNavigate} from 'react-router-dom';
 
 const InvoiceForm =() => {
   const{invoiceData, setInvoiceData} = useContext(InvoiceContext);
@@ -9,6 +10,7 @@ const InvoiceForm =() => {
   // const[currency, setCurrency]=useState('₹')
   const[item, setItem]=useState('');
   const[amount, setAmount]=useState('');
+  const navigate=useNavigate();
 
   useEffect(() => {
   console.log("Invoice data updated:",invoiceData);
@@ -27,18 +29,17 @@ const InvoiceForm =() => {
     }
   };
 
-  const handleDelete=(id)=>{
-  const updatedItems = invoiceData.items.filter((item,index)=>index!==id);
-  setInvoiceData({ ...invoiceData, items: updatedItems });
-};
-
+//   const handleDelete=(id)=>{
+//   const updatedItems = invoiceData.items.filter((item,index)=>index!==id);
+//   setInvoiceData({ ...invoiceData, items: updatedItems });
+// };
 
   const clearForm =()=> {
     setInvoiceData({
       clientName:'',
-      invoiceNumber:'',
-      date:'',
-      currency:'',
+      invoiceNumber:generateInvoiceNumber(),
+      date:getTodayDate(),
+      currency:'₹',
       items:[],
     });
   };
@@ -57,8 +58,8 @@ const InvoiceForm =() => {
       <label className="block font-semibold">Invoice Number</label>
       <input
         name="invoiceNumber"
-        value={invoiceData.invoiceNumber}
-        onChange={handleChange}
+        defaultValue={invoiceData.invoiceNumber}
+        readOnly
         className="border p-2 w-full mb-2"/>
 
       <label className="block font-semibold">Date</label>
@@ -70,15 +71,12 @@ const InvoiceForm =() => {
         className="border p-2 w-full mb-2"/>
 
       <label className="block font-semibold">Currency</label>
-      <select className="border p-2 w-full mb-2"
+      <input
+      className="border p-2 w-full mb-2"
+       type="currency"
        name="currency"
-       value={invoiceData.currency} 
-       onChange={handleChange}>
-       <option value="₹">₹</option>
-       <option value="$">$</option>
-       <option value="€">€</option>
-      </select>
-
+       defaultValue={invoiceData.currency} />
+       
       <div className="mt-4">
         <h2 className="font-bold mb-2">Add Items</h2>
         <input
@@ -104,11 +102,11 @@ const InvoiceForm =() => {
 
       </div>
 
-      <table className="w-full mt-4 border">
+      {/* <table className="w-full mt-4 border">
         <thead>
           <tr>
             <th className="border px-2">Item</th>
-            <th className="border px-2">Amount ({invoiceData.currency})</th>
+            <th className="border px-2">Amount({invoiceData.currency})</th>
             <th className="border px-2">Action</th>
           </tr>
         </thead>
@@ -128,10 +126,9 @@ const InvoiceForm =() => {
           }
         </tbody>
       </table>
-      <p className="font-bold mt-2"> Total: {invoiceData.currency}{" "}</p>
-
-      {/* total */}
-
+      <p className="font-bold mt-2">Total:{invoiceData.currency}{" "}
+      {invoiceData.items.reduce((total,item)=>total+ Number(item.amount),0)}</p> */}
+    
     </div>
   );
 };
