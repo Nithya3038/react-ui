@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useEffect} from 'react';
 import Calendar from 'react-calendar';
 import './calendar.css'; 
 // import 'react-calendar/dist/Calendar.css';
@@ -7,6 +8,7 @@ function SimpleCalendar() {
   const [date, setDate] = useState(new Date());
   const [note, setNote] = useState('');
   const [noteslist, setNotesList] = useState([]);
+  const [loaded, setLoaded]= useState(false);
 
   const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, '0');
@@ -15,11 +17,31 @@ function SimpleCalendar() {
     return `${day}-${month}-${year}`;
   };
 
+  useEffect(()=>{
+    const savedNotes=localStorage.getItem("notes");
+    if(savedNotes){
+      console.log("loading localstorage");
+      setNotesList(JSON.parse(savedNotes));
+    }setLoaded(true);
+  },[]);
+
+  useEffect(()=>{
+    if(loaded){
+    console.log("saving localstorage");
+    localStorage.setItem("notes",JSON.stringify(noteslist));
+    }
+  },[noteslist,loaded]);
+
   const handleAddNote = () => {
     if (note) {
       setNotesList([...noteslist, { date: formatDate(date), note }]);
       setNote('');
     }
+  }
+
+  const handleClear=()=>{
+    localStorage.removeItem('notes');
+    setNotesList([]);
   }
 
   return (
@@ -51,10 +73,16 @@ function SimpleCalendar() {
               onChange={(e) => setNote(e.target.value)}
               placeholder="Add a note"
             ></textarea>
-
+          
+          <div className="mt-6 space-x-2">
             <button
               className="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
               onClick={handleAddNote}>Add Note</button>
+
+            <button
+              className="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              onClick={handleClear}>Clear</button>
+              </div>
           </div>
 
          <div className="mt-4 text-left">
